@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Source.Scripts.Bots;
 using Source.Scripts.Other;
 using Source.Scripts.Spawners;
@@ -8,8 +7,7 @@ using UnityEngine;
 
 namespace Source.Scripts.Base
 {
-    [RequireComponent(typeof(BotsSpawner), typeof(ResourcesSearcher),
-        typeof(ResourcesCounter))]
+    [RequireComponent(typeof(BotsSpawner), typeof(ResourcesSearcher), typeof(ResourcesCounter))]
     public class Base : MonoBehaviour
     {
         [SerializeField] private int _startBotsAmount;
@@ -17,6 +15,10 @@ namespace Source.Scripts.Base
         [SerializeField] private float _searchingResourcesDelay;
         [SerializeField] private ResourcesVault _vault;
         [SerializeField] private int _botCreationCost;
+        [SerializeField] private LayerMask _groundLayer;
+        [SerializeField] private LayerMask _baseLayer;
+        [SerializeField] private GameObject _flagPrefab;
+        [SerializeField] private InputReader _inputReader;
 
         private List<BotCollector> _bots;
         private BotsSpawner _spawner;
@@ -24,6 +26,8 @@ namespace Source.Scripts.Base
         private ResourcesCounter _resourcesCounter;
         private WaitForSeconds _waitForBotsSearch;
         private WaitForSeconds _waitForResourcesSearch;
+        private GameObject _currentFlag;
+        private bool _isBaseSelected;
 
         private void Awake()
         {
@@ -43,9 +47,68 @@ namespace Source.Scripts.Base
             StartCoroutine(FindFreeAvailableResources());
         }
 
+        private void OnEnable()
+        {
+            _inputReader.LeftMouseButtonClicked += ProcessLeftButton;
+            _inputReader.RightMouseButtonClicked += CancelSelection;
+        }
+
         private void OnDisable()
         {
             StopAllCoroutines();
+        }
+
+        private void ProcessLeftButton()
+        {
+            RaycastHit hit;
+            
+            if (TryCastRaycast(_baseLayer, out hit))
+            {
+                if (hit.collider == GetComponent<Collider>())
+                {
+                    SelectBase();
+                    Debug.Log("Base selected");
+                    return;
+                }
+                
+                CancelSelection();
+            }
+            else if (TryCastRaycast(_groundLayer, out hit))
+            {
+                PlaceFlag(hit.point);
+                Debug.Log("Flag placed");
+            }
+
+        }
+
+        private void PlaceFlag(Vector3 position)
+        {
+            if (_currentFlag != null)
+            {
+                _currentFlag.transform.position = position;
+            }
+            else
+            {
+                _currentFlag = Instantiate(_flagPrefab, position, Quaternion.identity);
+            }
+        }
+
+        private void SelectBase()
+        {
+            _isBaseSelected = true;
+        }
+
+        private void CancelSelection()
+        {
+            _isBaseSelected = false;
+            Debug.Log("Cancel base selection");
+        }
+
+        private bool TryCastRaycast(LayerMask mask, out RaycastHit hit)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            return Physics.Raycast(ray, out hit, Mathf.Infinity, mask);
         }
 
         public void SetResource(Resource resource)
@@ -67,7 +130,7 @@ namespace Source.Scripts.Base
                 {
                     if (bot.IsBotFree)
                     {
-                        TryGiveTask(bot);
+                        TryGiveCollectTask(bot);
                     }
                 }
 
@@ -91,21 +154,21 @@ namespace Source.Scripts.Base
             }
         }
 
-        private void TryGiveTask(BotCollector bot)
+        private void TryGiveCollectTask(BotCollector bot)
         {
             if (_vault.TryGetFreeResource(out Resource resource))
             {
-                bot.SetTask(resource.transform.position);
+                bot.SetCollectTask(resource.transform.position);
             }
         }
 
         private void SpawnNewBots()
         {
             int spawnBotsAmount = _resourcesCounter.ResourcesCount / _botCreationCost;
-            
+
             _bots.AddRange(_spawner.SpawnBots
                 (spawnBotsAmount));
-            
+
             _resourcesCounter.UseResources(spawnBotsAmount * _botCreationCost);
         }
     }

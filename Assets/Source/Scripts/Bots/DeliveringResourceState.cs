@@ -16,7 +16,7 @@ namespace Source.Scripts.Bots
             {
                 botBase.SetResource(DropResource());
 
-                StateMachine.CompleteTask();
+                StateMachine.CompleteCollectTask();
                 StateMachine.SetState(_idleState);
             }
         }

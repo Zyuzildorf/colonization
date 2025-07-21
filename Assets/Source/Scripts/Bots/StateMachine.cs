@@ -12,7 +12,9 @@ namespace Source.Scripts.Bots
         
         public Vector3 BasePosition { get; private set; }
         public Vector3 TargetPosition { get; private set; }
-        public bool IsTaskReceived { get; private set; }
+        public Transform NewBasePosition { get; private set; }
+        public bool IsTaskToCollectReceived { get; private set; }
+        public bool IsTaskToBuildNewBaseReceived { get; private set; }
         
         public event Action TaskCompleted;
 
@@ -54,18 +56,29 @@ namespace Source.Scripts.Bots
             }
         }
 
-        public void CompleteTask()
+        public void CompleteCollectTask()
         {
-            IsTaskReceived = false;
+            IsTaskToCollectReceived = false;
             TargetPosition = transform.position;
             
             TaskCompleted?.Invoke();
         }
 
-        public void SetTask(Vector3 target)
+        public void CompleteBuildTask()
         {
-            IsTaskReceived = true;
+            IsTaskToBuildNewBaseReceived = false;
+        }
+
+        public void SetCollectTask(Vector3 target)
+        {
+            IsTaskToCollectReceived = true;
             TargetPosition = target;
+        }
+
+        public void SetBuildTask(Transform target)
+        {
+            IsTaskToBuildNewBaseReceived = true;
+            NewBasePosition = target;
         }
     }
 }
