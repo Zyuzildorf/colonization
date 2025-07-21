@@ -22,5 +22,11 @@ namespace Source.Scripts.Base
             _resources.Add(resource);
             ResourcesValueChanged?.Invoke(_resources.Count);
         }
+
+        public void UseResources(int amount)
+        {
+            _resources.RemoveRange(_resources.Count - amount, amount);
+            ResourcesValueChanged?.Invoke(_resources.Count);
+        }
     }
 }

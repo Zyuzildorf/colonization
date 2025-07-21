@@ -170,7 +170,7 @@ MonoBehaviour:
   _radius: 10
   _initialPoolSize: 20
   _canExpand: 1
-  _amount: 25
+  _amount: 500
   _delay: 1
 --- !u!1 &705507993
 GameObject:
@@ -634,7 +634,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1394172146}
   m_LocalRotation: {x: 0.08402007, y: -0, z: -0, w: 0.9964641}
-  m_LocalPosition: {x: 0, y: 0, z: -11.61}
+  m_LocalPosition: {x: 0, y: 0, z: -11.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -642,7 +642,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 9.639, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -959.7956, y: -536.9961}
+  m_AnchoredPosition: {x: -959.7956, y: -535.01}
   m_SizeDelta: {x: 4.3683, y: 1.8649}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1394172148
@@ -950,7 +950,7 @@ MonoBehaviour:
   _radius: 10
   _initialPoolSize: 10
   _canExpand: 1
-  _amount: 20
+  _amount: 500
   _delay: 1
 --- !u!1001 &5826986828428694725
 PrefabInstance:
@@ -966,11 +966,11 @@ PrefabInstance:
       objectReference: {fileID: 7352305650002189995, guid: a141a6a3815a57f4fbaa251d7beb7e14, type: 3}
     - target: {fileID: 2034046191547386756, guid: 2e9dd13e32d0af54e8f9a79f80ccf29d, type: 3}
       propertyPath: _radius
-      value: 3
+      value: 1.44
       objectReference: {fileID: 0}
     - target: {fileID: 2034046191547386756, guid: 2e9dd13e32d0af54e8f9a79f80ccf29d, type: 3}
       propertyPath: _canExpand
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2034046191547386756, guid: 2e9dd13e32d0af54e8f9a79f80ccf29d, type: 3}
       propertyPath: _initialPoolSize
@@ -980,6 +980,10 @@ PrefabInstance:
       propertyPath: _vault
       value: 
       objectReference: {fileID: 1814343804}
+    - target: {fileID: 2092643964646203287, guid: 2e9dd13e32d0af54e8f9a79f80ccf29d, type: 3}
+      propertyPath: _botCreationCost
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3934700987107858528, guid: 2e9dd13e32d0af54e8f9a79f80ccf29d, type: 3}
       propertyPath: m_Name
       value: Base

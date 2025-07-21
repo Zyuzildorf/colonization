@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2092643964646203287}
   - component: {fileID: 7746857409746698629}
   - component: {fileID: 1838606765297879071}
+  - component: {fileID: 2034057840979040869}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -68,6 +69,7 @@ MonoBehaviour:
   _searchingBotsDelay: 0.5
   _searchingResourcesDelay: 3
   _vault: {fileID: 0}
+  _botCreationCost: 0
 --- !u!114 &7746857409746698629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,6 +105,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5, y: 5, z: 5}
   m_Center: {x: 0, y: 2, z: 0}
+--- !u!114 &2034057840979040869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3934700987107858528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a1d87fdcca401c82058344e6e433a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7971586059271365937
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,7 +144,7 @@ Transform:
   m_GameObject: {fileID: 7971586059271365937}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 2.55, y: 2.3205001, z: 2.55}
   m_ConstrainProportionsScale: 1
   m_Children: []

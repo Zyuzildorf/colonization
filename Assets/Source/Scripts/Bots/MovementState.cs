@@ -9,8 +9,9 @@ namespace Source.Scripts.Bots
 
         protected virtual void Move(Vector3 target)
         {
+            
             transform.position = Vector3.MoveTowards(transform.position,
-                target, _moveSpeed * Time.deltaTime);
+               target, _moveSpeed * Time.deltaTime);
         }
 
         protected virtual void Rotate(Vector3 target)

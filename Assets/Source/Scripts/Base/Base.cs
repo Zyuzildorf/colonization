@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Source.Scripts.Bots;
 using Source.Scripts.Other;
 using Source.Scripts.Spawners;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Source.Scripts.Base
 {
-    [RequireComponent(typeof(BotsSpawner), typeof(ResourcesSearcher), 
+    [RequireComponent(typeof(BotsSpawner), typeof(ResourcesSearcher),
         typeof(ResourcesCounter))]
     public class Base : MonoBehaviour
     {
@@ -15,12 +16,12 @@ namespace Source.Scripts.Base
         [SerializeField] private float _searchingBotsDelay;
         [SerializeField] private float _searchingResourcesDelay;
         [SerializeField] private ResourcesVault _vault;
+        [SerializeField] private int _botCreationCost;
 
         private List<BotCollector> _bots;
         private BotsSpawner _spawner;
         private ResourcesSearcher _searcher;
         private ResourcesCounter _resourcesCounter;
-        private List<Resource> _resources;
         private WaitForSeconds _waitForBotsSearch;
         private WaitForSeconds _waitForResourcesSearch;
 
@@ -29,7 +30,7 @@ namespace Source.Scripts.Base
             _spawner = GetComponent<BotsSpawner>();
             _searcher = GetComponent<ResourcesSearcher>();
             _resourcesCounter = GetComponent<ResourcesCounter>();
-            
+
             _waitForBotsSearch = new WaitForSeconds(_searchingBotsDelay);
             _waitForResourcesSearch = new WaitForSeconds(_searchingResourcesDelay);
         }
@@ -51,6 +52,11 @@ namespace Source.Scripts.Base
         {
             _vault.RemoveBusyResource(resource);
             _resourcesCounter.SetResource(resource);
+
+            if (_resourcesCounter.ResourcesCount >= _botCreationCost)
+            {
+                SpawnNewBots();
+            }
         }
 
         private IEnumerator GiveTaskForFreeBots()
@@ -91,6 +97,16 @@ namespace Source.Scripts.Base
             {
                 bot.SetTask(resource.transform.position);
             }
+        }
+
+        private void SpawnNewBots()
+        {
+            int spawnBotsAmount = _resourcesCounter.ResourcesCount / _botCreationCost;
+            
+            _bots.AddRange(_spawner.SpawnBots
+                (spawnBotsAmount));
+            
+            _resourcesCounter.UseResources(spawnBotsAmount * _botCreationCost);
         }
     }
 }
