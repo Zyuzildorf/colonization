@@ -16,7 +16,7 @@ namespace Source.Scripts.Bots
             {
                 botBase.SetResource(DropResource());
 
-                StateMachine.CompleteCollectTask();
+                BotCollector.CompleteTask();
                 StateMachine.SetState(_idleState);
             }
         }
@@ -31,7 +31,7 @@ namespace Source.Scripts.Bots
         {
             base.Enter();
             
-            _targetPosition = StateMachine.BasePosition;
+            _targetPosition = BotCollector.BasePosition;
         }
 
         private Resource DropResource()

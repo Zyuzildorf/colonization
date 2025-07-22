@@ -1,12 +1,15 @@
 using System;
 using UnityEngine;
 
-public class CollisionHandler : MonoBehaviour
+namespace Source.Scripts.Bots
 {
-    public event Action<Collider> TriggerEntered;
-
-    private void OnTriggerEnter(Collider other)
+    public class CollisionHandler : MonoBehaviour
     {
-        TriggerEntered?.Invoke(other);
+        public event Action<Collider> TriggerEntered;
+
+        private void OnTriggerEnter(Collider other)
+        {
+            TriggerEntered?.Invoke(other);
+        }
     }
 }

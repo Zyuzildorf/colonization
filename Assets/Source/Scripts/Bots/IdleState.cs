@@ -1,5 +1,5 @@
-﻿using Source.Scripts.Interfaces;
-using Unity.VisualScripting;
+﻿using System;
+using Source.Scripts.Interfaces;
 using UnityEngine;
 
 namespace Source.Scripts.Bots
@@ -10,13 +10,13 @@ namespace Source.Scripts.Bots
 
         public void UpdateState()
         {
-            if (StateMachine.IsTaskToCollectReceived)
+            if (BotCollector.CurrentTask == Tasks.CollectResources)
             {
                 StateMachine.SetState(_searchingResourceState);
             }
-            else if (StateMachine.IsTaskToBuildNewBaseReceived)
+            else if (BotCollector.CurrentTask == Tasks.BuildBase)
             {
-                //StateMachine.SetState();
+                
             }
         }
     }

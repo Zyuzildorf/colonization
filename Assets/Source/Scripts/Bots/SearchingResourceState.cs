@@ -37,7 +37,7 @@ namespace Source.Scripts.Bots
             base.Enter();
             
             _isResourceTaken = false;
-            _targetPosition = StateMachine.TargetPosition;
+            _targetPosition = BotCollector.TargetPosition;
         }
 
         private void PickUpResource(Resource resource)

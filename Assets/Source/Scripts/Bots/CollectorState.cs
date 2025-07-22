@@ -3,14 +3,16 @@ using UnityEngine;
 
 namespace Source.Scripts.Bots
 {
-    [RequireComponent(typeof(BotCollector))]
+    [RequireComponent(typeof(BotCollector), typeof(StateMachine))]
     public abstract class CollectorState : MonoBehaviour, IExitable, IEnterable
     {
+        protected BotCollector BotCollector;
         protected StateMachine StateMachine;
 
-        private void Awake()
+        private void Start()
         {
             StateMachine = GetComponent<StateMachine>();
+            BotCollector = GetComponent<BotCollector>();
             enabled = false;
         }
 

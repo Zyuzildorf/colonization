@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a10ea37ef45f1fe4eb61de83c5545bfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _idleState: {fileID: 3771088840208546408}
 --- !u!114 &6949708692298205915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4266d25167c84dab945954145cae25c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _idleState: {fileID: 3771088840208546408}
 --- !u!114 &1634161647788632008
 MonoBehaviour:
   m_ObjectHideFlags: 0

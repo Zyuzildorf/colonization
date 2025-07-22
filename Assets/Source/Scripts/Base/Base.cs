@@ -60,25 +60,26 @@ namespace Source.Scripts.Base
 
         private void ProcessLeftButton()
         {
-            RaycastHit hit;
-            
-            if (TryCastRaycast(_baseLayer, out hit))
+            if (TryCastRaycast(_baseLayer, out RaycastHit hit))
             {
-                if (hit.collider == GetComponent<Collider>())
+                if (hit.collider.gameObject == gameObject)
                 {
                     SelectBase();
                     Debug.Log("Base selected");
                     return;
                 }
-                
+
                 CancelSelection();
             }
             else if (TryCastRaycast(_groundLayer, out hit))
             {
-                PlaceFlag(hit.point);
+                if (_isBaseSelected)
+                {
+                    PlaceFlag(hit.point);
+                }
+
                 Debug.Log("Flag placed");
             }
-
         }
 
         private void PlaceFlag(Vector3 position)
@@ -128,7 +129,7 @@ namespace Source.Scripts.Base
             {
                 foreach (BotCollector bot in _bots)
                 {
-                    if (bot.IsBotFree)
+                    if (bot.CurrentTask == Tasks.WaitForNewTask)
                     {
                         TryGiveCollectTask(bot);
                     }
@@ -158,7 +159,7 @@ namespace Source.Scripts.Base
         {
             if (_vault.TryGetFreeResource(out Resource resource))
             {
-                bot.SetCollectTask(resource.transform.position);
+                bot.SetTask(resource.transform.position, Tasks.CollectResources);
             }
         }
 

@@ -1,3 +1,5 @@
+using System;
+using Source.Scripts.Interfaces;
 using UnityEngine;
 
 namespace Source.Scripts.Bots
@@ -5,17 +7,26 @@ namespace Source.Scripts.Bots
     [RequireComponent(typeof(CollisionHandler), typeof(StateMachine))]
     public class BotCollector : MonoBehaviour
     {
-        private CollisionHandler _collisionHandler;
-        private StateMachine _stateMachine;
+        [SerializeField] private IdleState _idleState;
         
-        public bool IsBotFree { get; private set; }
+        private StateMachine _stateMachine;
+        private CollisionHandler _collisionHandler;
+
+        public Vector3 BasePosition { get; private set; }
+        public Vector3 TargetPosition { get; private set; }
+        public Tasks CurrentTask { get; private set; }
 
         private void Awake()
         {
-            _collisionHandler = GetComponent<CollisionHandler>();
-            _stateMachine = GetComponent<StateMachine>();
-
             CompleteTask();
+            BasePosition = transform.position;
+            _stateMachine = GetComponent<StateMachine>();
+            _collisionHandler = GetComponent<CollisionHandler>();
+        }
+
+        private void Start()
+        {
+            _stateMachine.SetState(_idleState);
         }
 
         private void Update()
@@ -25,25 +36,32 @@ namespace Source.Scripts.Bots
 
         private void OnEnable()
         {
-            _collisionHandler.TriggerEntered += _stateMachine.ProcessCollision;
-            _stateMachine.TaskCompleted += CompleteTask;
+            _collisionHandler.TriggerEntered += ProcessCollision;
         }
 
         private void OnDisable()
         {
-            _collisionHandler.TriggerEntered -= _stateMachine.ProcessCollision;
-            _stateMachine.TaskCompleted -= CompleteTask;
+            _collisionHandler.TriggerEntered -= ProcessCollision;
         }
 
-        public void SetCollectTask(Vector3 target)
+        public void SetTask(Vector3 target, Tasks task)
         {
-            IsBotFree = false;
-            _stateMachine.SetCollectTask(target);
+            CurrentTask = task;
+            TargetPosition = target;
         }
 
-        private void CompleteTask()
+        public void CompleteTask()
         {
-            IsBotFree = true;
+            CurrentTask = Tasks.WaitForNewTask;
+            TargetPosition = transform.position;
+        }
+
+        private void ProcessCollision(Collider other)
+        {
+            if (_stateMachine.CurrentState is ITriggerable triggerable)
+            {
+                triggerable.ProcessTriggerCollider(other);
+            }
         }
     }
 }

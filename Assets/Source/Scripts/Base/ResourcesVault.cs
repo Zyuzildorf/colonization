@@ -1,48 +1,51 @@
 using System.Collections.Generic;
-using UnityEngine;
-using Source.Scripts.Other;
 using System.Linq;
+using Source.Scripts.Other;
+using UnityEngine;
 
-public class ResourcesVault : MonoBehaviour
+namespace Source.Scripts.Base
 {
-    private List<Resource> _freeResources = new List<Resource>();
-    private List<Resource> _busyResources = new List<Resource>();
-
-    public int FreeResourcesCount => _freeResources.Count;
-
-    public bool TryGetFreeResource(out Resource freeResource)
+    public class ResourcesVault : MonoBehaviour
     {
-        if (_freeResources.Count > 0)
+        private List<Resource> _freeResources = new List<Resource>();
+        private List<Resource> _busyResources = new List<Resource>();
+
+        public int FreeResourcesCount => _freeResources.Count;
+
+        public bool TryGetFreeResource(out Resource freeResource)
         {
-            freeResource = GiveLastFreeResource();
-            return true;
+            if (_freeResources.Count > 0)
+            {
+                freeResource = GiveLastFreeResource();
+                return true;
+            }
+
+            freeResource = null;
+            return false;
         }
 
-        freeResource = null;
-        return false;
-    }
-
-    public void RemoveBusyResource(Resource resource)
-    {
-        _busyResources.Remove(resource);
-    }
-
-    public void SetResources(List<Resource> resources)
-    {
-        foreach (Resource resource in resources)
+        public void RemoveBusyResource(Resource resource)
         {
-            if (_busyResources.Contains(resource) == false && _freeResources.Contains(resource) == false)
+            _busyResources.Remove(resource);
+        }
+
+        public void SetResources(List<Resource> resources)
+        {
+            foreach (Resource resource in resources)
             {
-                _freeResources.Add(resource);
+                if (_busyResources.Contains(resource) == false && _freeResources.Contains(resource) == false)
+                {
+                    _freeResources.Add(resource);
+                }
             }
         }
-    }
 
-    private Resource GiveLastFreeResource()
-    {
-        Resource resource = _freeResources.Last();
-        _freeResources.Remove(resource);
-        _busyResources.Add(resource);
-        return resource;
+        private Resource GiveLastFreeResource()
+        {
+            Resource resource = _freeResources.Last();
+            _freeResources.Remove(resource);
+            _busyResources.Add(resource);
+            return resource;
+        }
     }
 }
