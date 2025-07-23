@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Source.Scripts.Bots
 {
-    public class DeliveringResourceState : MovementState, IUpdatable, ITriggerable
+    public class BotDeliveringResourceState : MovementState, IUpdatable, ITriggerable
     {
-        [SerializeField] private IdleState _idleState;
+        [SerializeField] private BotIdleState _botIdleState;
     
-        private Vector3 _targetPosition;
+        private Transform _targetPosition;
 
         public void ProcessTriggerCollider(Collider other)
         {
@@ -17,14 +17,14 @@ namespace Source.Scripts.Bots
                 botBase.SetResource(DropResource());
 
                 BotCollector.CompleteTask();
-                StateMachine.SetState(_idleState);
+                StateMachine.SetState(_botIdleState);
             }
         }
         
         public void UpdateState()
         {
-            Move(_targetPosition);
-            Rotate(_targetPosition);
+            Move(_targetPosition.position);
+            Rotate(_targetPosition.position);
         }
 
         public override void Enter()

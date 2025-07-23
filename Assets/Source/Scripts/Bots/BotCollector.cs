@@ -1,5 +1,6 @@
 using System;
 using Source.Scripts.Interfaces;
+using Source.Scripts.Other;
 using UnityEngine;
 
 namespace Source.Scripts.Bots
@@ -7,26 +8,25 @@ namespace Source.Scripts.Bots
     [RequireComponent(typeof(CollisionHandler), typeof(StateMachine))]
     public class BotCollector : MonoBehaviour
     {
-        [SerializeField] private IdleState _idleState;
+        [SerializeField] private BotIdleState _botIdleState;
         
         private StateMachine _stateMachine;
         private CollisionHandler _collisionHandler;
 
-        public Vector3 BasePosition { get; private set; }
-        public Vector3 TargetPosition { get; private set; }
+        public Transform BasePosition { get; private set; }
+        public Transform TargetPosition { get; private set; }
         public Tasks CurrentTask { get; private set; }
 
         private void Awake()
         {
             CompleteTask();
-            BasePosition = transform.position;
             _stateMachine = GetComponent<StateMachine>();
             _collisionHandler = GetComponent<CollisionHandler>();
         }
 
         private void Start()
         {
-            _stateMachine.SetState(_idleState);
+            _stateMachine.SetState(_botIdleState);
         }
 
         private void Update()
@@ -44,7 +44,7 @@ namespace Source.Scripts.Bots
             _collisionHandler.TriggerEntered -= ProcessCollision;
         }
 
-        public void SetTask(Vector3 target, Tasks task)
+        public void SetTask(Transform target, Tasks task)
         {
             CurrentTask = task;
             TargetPosition = target;
@@ -53,9 +53,14 @@ namespace Source.Scripts.Bots
         public void CompleteTask()
         {
             CurrentTask = Tasks.WaitForNewTask;
-            TargetPosition = transform.position;
+            TargetPosition = transform;
         }
 
+        public void SetBasePosition(Transform basePosition)
+        {
+            BasePosition = basePosition;
+        }
+        
         private void ProcessCollision(Collider other)
         {
             if (_stateMachine.CurrentState is ITriggerable triggerable)

@@ -4,15 +4,15 @@ using UnityEngine;
 
 namespace Source.Scripts.Bots
 {
-    public class IdleState : CollectorState, IUpdatable
+    public class BotIdleState : BotState, IUpdatable
     {
-        [SerializeField] private SearchingResourceState _searchingResourceState;
+        [SerializeField] private BotSearchingResourceState _botSearchingResourceState;
 
         public void UpdateState()
         {
             if (BotCollector.CurrentTask == Tasks.CollectResources)
             {
-                StateMachine.SetState(_searchingResourceState);
+                StateMachine.SetState(_botSearchingResourceState);
             }
             else if (BotCollector.CurrentTask == Tasks.BuildBase)
             {

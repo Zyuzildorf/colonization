@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a10ea37ef45f1fe4eb61de83c5545bfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _idleState: {fileID: 3771088840208546408}
+  _botIdleState: {fileID: 3771088840208546408}
 --- !u!114 &6949708692298205915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 5
   _rotateSpeed: 5
-  _idleState: {fileID: 3771088840208546408}
+  _botIdleState: {fileID: 3771088840208546408}
 --- !u!114 &4146103037511316188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 10
   _rotateSpeed: 5
-  _deliveringResourceState: {fileID: 1634161647788632008}
+  _botDeliveringResourceState: {fileID: 1634161647788632008}
   _closeDistance: 0.1
   _pickUpOffset: {x: 0, y: 1, z: -1}
 --- !u!114 &7484515521416062429
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17346fe7174e4d0993788236917ac1c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _searchingResourceState: {fileID: 4146103037511316188}
+  _botSearchingResourceState: {fileID: 4146103037511316188}
 --- !u!54 &-4645008169224775508
 Rigidbody:
   m_ObjectHideFlags: 0

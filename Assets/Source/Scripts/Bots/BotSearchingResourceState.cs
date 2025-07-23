@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Source.Scripts.Bots
 {
-    public class SearchingResourceState : MovementState, IUpdatable, ITriggerable
+    public class BotSearchingResourceState : MovementState, IUpdatable, ITriggerable
     {
-        [SerializeField]  private DeliveringResourceState _deliveringResourceState;
+        [SerializeField]  private BotDeliveringResourceState _botDeliveringResourceState;
         [SerializeField] private float _closeDistance = 0.1f;
         [SerializeField] private Vector3 _pickUpOffset;
     
-        private Vector3 _targetPosition;
+        private Transform _targetPosition;
         private bool _isResourceTaken;
 
         public void ProcessTriggerCollider(Collider other)
@@ -23,12 +23,12 @@ namespace Source.Scripts.Bots
         
         public void UpdateState()
         {
-            Move(_targetPosition);
-            Rotate(_targetPosition);
+            Move(_targetPosition.position);
+            Rotate(_targetPosition.position);
 
             if (_isResourceTaken)
             {
-                StateMachine.SetState(_deliveringResourceState);
+                StateMachine.SetState(_botDeliveringResourceState);
             }
         }
     
@@ -53,7 +53,7 @@ namespace Source.Scripts.Bots
 
         private bool IsTargetResource(Resource resource)
         {
-            Vector2 targetPosition = new Vector2(_targetPosition.x, _targetPosition.z);
+            Vector2 targetPosition = new Vector2(_targetPosition.position.x, _targetPosition.position.z);
             Vector2 resourcePosition = new Vector2(resource.transform.position.x, resource.transform.position.z);
         
             if ((targetPosition - resourcePosition).sqrMagnitude < _closeDistance * _closeDistance)

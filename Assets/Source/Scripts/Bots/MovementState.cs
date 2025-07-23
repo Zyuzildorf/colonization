@@ -2,7 +2,7 @@
 
 namespace Source.Scripts.Bots
 {
-    public abstract class MovementState : CollectorState
+    public abstract class MovementState : BotState
     {
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _rotateSpeed;

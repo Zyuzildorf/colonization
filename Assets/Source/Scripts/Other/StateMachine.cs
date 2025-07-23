@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Source.Scripts.Bots;
 using Source.Scripts.Interfaces;
 using UnityEngine;
 
-namespace Source.Scripts.Bots
+namespace Source.Scripts.Other
 {
     public class StateMachine : MonoBehaviour
     {
-        public CollectorState CurrentState { get; private set; }
+        public BotState CurrentState { get; private set; }
 
 
         public void UpdateCurrentState()
@@ -17,7 +17,7 @@ namespace Source.Scripts.Bots
             }
         }
 
-        public void SetState(CollectorState state)
+        public void SetState(BotState state)
         {
             if (CurrentState == state)
             {
