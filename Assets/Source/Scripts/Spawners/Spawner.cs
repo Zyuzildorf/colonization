@@ -59,7 +59,7 @@ namespace Source.Scripts.Spawners
         
         protected virtual T CreatePooledObject()
         {
-            T newObj = Instantiate(_prefab, transform);
+            var newObj = Instantiate(_prefab, transform);
             newObj.gameObject.SetActive(false);
             newObj.transform.SetParent(null);
             _pool.Enqueue(newObj);

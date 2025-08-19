@@ -1,4 +1,5 @@
 ﻿using System;
+using Source.Scripts.Bots;
 using Source.Scripts.Other;
 using UnityEngine;
 
@@ -12,8 +13,14 @@ namespace Source.Scripts.Base
         private GameObject _currentFlag;
         private bool _isBaseSelected;
 
+        public Tasks CurrentTask { get; private set; }
         public void SelectBase() => _isBaseSelected = true;
         public void CancelSelection() => _isBaseSelected = false;
+
+        private void Awake()
+        {
+            CurrentTask = Tasks.CollectResources;
+        }
 
         private void OnEnable()
         {
@@ -45,6 +52,8 @@ namespace Source.Scripts.Base
             {
                 _currentFlag = Instantiate(_flagPrefab, flagPosition, Quaternion.identity);
             }
+
+            CurrentTask = Tasks.BuildBase;
         }
     }
 }

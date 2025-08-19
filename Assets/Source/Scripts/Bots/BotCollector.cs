@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace Source.Scripts.Bots
 {
-    [RequireComponent(typeof(CollisionHandler), typeof(StateMachine))]
+    [RequireComponent(typeof(CollisionHandler), typeof(BotsStateMachine))]
     public class BotCollector : MonoBehaviour
     {
         [SerializeField] private BotIdleState _botIdleState;
         
-        private StateMachine _stateMachine;
+        private BotsStateMachine _stateMachine;
         private CollisionHandler _collisionHandler;
 
         public Transform BasePosition { get; private set; }
@@ -20,7 +20,7 @@ namespace Source.Scripts.Bots
         private void Awake()
         {
             CompleteTask();
-            _stateMachine = GetComponent<StateMachine>();
+            _stateMachine = GetComponent<BotsStateMachine>();
             _collisionHandler = GetComponent<CollisionHandler>();
         }
 

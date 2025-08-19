@@ -17,9 +17,11 @@ namespace Source.Scripts.Base
         private ResourcesCounter _resourcesCounter;
         private WaitForSeconds _waitForBotsSearch;
         private ResourcesVault _vault;
+        private Tasks _currentTask;
         
         public int BotCreationCost => _botCreationCost;
-
+        public void SetTask(Tasks task) => _currentTask = task;
+        
         public void Initialize(BotsSpawner spawner, ResourcesCounter counter, ResourcesVault vault, int startBotsAmount)
         {
             _spawner = spawner;
@@ -60,7 +62,7 @@ namespace Source.Scripts.Base
         {
             if (_vault.TryGetFreeResource(out Resource resource))
             {
-                bot.SetTask(resource.transform, Tasks.CollectResources);
+                bot.SetTask(resource.transform, _currentTask);
             }
         }
     }

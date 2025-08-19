@@ -9,7 +9,6 @@ namespace Source.Scripts.Bots
 
         protected void Move(Vector3 target)
         {
-            
             transform.position = Vector3.MoveTowards(transform.position,
                target, _moveSpeed * Time.deltaTime);
         }

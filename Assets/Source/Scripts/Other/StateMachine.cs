@@ -1,13 +1,11 @@
-﻿using Source.Scripts.Bots;
-using Source.Scripts.Interfaces;
+﻿using Source.Scripts.Interfaces;
 using UnityEngine;
 
 namespace Source.Scripts.Other
 {
-    public class StateMachine : MonoBehaviour
+    public abstract class StateMachine<T> : MonoBehaviour where T:State 
     {
-        public BotState CurrentState { get; private set; }
-
+        public T CurrentState { get; private set; }
 
         public void UpdateCurrentState()
         {
@@ -17,13 +15,18 @@ namespace Source.Scripts.Other
             }
         }
 
-        public void SetState(BotState state)
+        public void SetState(T state)
         {
             if (CurrentState == state)
             {
                 return;
             }
 
+            if (CurrentState is IExitable exitable)
+            {
+                exitable.Exit();
+            }
+            
             CurrentState = state;
 
             if (CurrentState is IEnterable enterable)
