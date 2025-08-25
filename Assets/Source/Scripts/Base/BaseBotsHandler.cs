@@ -18,9 +18,14 @@ namespace Source.Scripts.Base
         private WaitForSeconds _waitForBotsSearch;
         private ResourcesVault _vault;
         private Tasks _currentTask;
+        private Transform _flagPosition;
+        private int _baseCreationCost;
         
         public int BotCreationCost => _botCreationCost;
+        public Tasks CurrentTask => _currentTask;
         public void SetTask(Tasks task) => _currentTask = task;
+        public void SetFlagPosition(Transform flag) => _flagPosition = flag;
+        public void SetNewBaseCreationCost(int cost) => _baseCreationCost = cost;
         
         public void Initialize(BotsSpawner spawner, ResourcesCounter counter, ResourcesVault vault, int startBotsAmount)
         {
@@ -51,14 +56,28 @@ namespace Source.Scripts.Base
                 {
                     if (bot.CurrentTask == Tasks.WaitForNewTask)
                     {
-                        TryGiveTask(bot);
+                        GiveTask(bot);
                     }
                 }
                 yield return _waitForBotsSearch;
             }
         }
 
-        private void TryGiveTask(BotCollector bot)
+        private void GiveTask(BotCollector bot)
+        {
+            if (_currentTask == Tasks.CollectResources)
+            {
+                GiveCollectTask(bot);
+            }
+            else if (_currentTask == Tasks.BuildBase)
+            {
+                bot.SetTask(_flagPosition, Tasks.BuildBase);
+                _resourcesCounter.UseResources(_baseCreationCost);
+                _currentTask = Tasks.CollectResources;
+            }
+        }
+        
+        private void GiveCollectTask(BotCollector bot)
         {
             if (_vault.TryGetFreeResource(out Resource resource))
             {

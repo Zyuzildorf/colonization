@@ -6,8 +6,8 @@ using UnityEngine;
 namespace Source.Scripts.Base
 {
     [RequireComponent(typeof(BotsSpawner), typeof(ResourcesSearcher), typeof(ResourcesCounter))]
-    [RequireComponent(typeof(BaseSelectionHandler), typeof(BaseBotsHandler), typeof(BaseResourcesHandler))]
-    [RequireComponent(typeof(BaseStateMachine), typeof(CreateNewBotsState), typeof(CreateNewBaseState))]
+    [RequireComponent(typeof(CreateNewBaseState), typeof(BaseBotsHandler), typeof(BaseResourcesHandler))]
+    [RequireComponent(typeof(BaseStateMachine), typeof(CreateNewBotsState))]
     public class Base : MonoBehaviour
     {
         [SerializeField] private int _startBotsAmount = 3;
@@ -19,7 +19,6 @@ namespace Source.Scripts.Base
         private CreateNewBaseState _newBaseState;
         private BotsSpawner _botsSpawner;
         private ResourcesSearcher _searcher;
-        private BaseSelectionHandler _selectionHandler;
         private BaseBotsHandler _botsHandler;
         private BaseResourcesHandler _resourcesHandler;
         private ResourcesCounter _resourcesCounter;
@@ -32,7 +31,6 @@ namespace Source.Scripts.Base
             _botsSpawner = GetComponent<BotsSpawner>();
             _searcher = GetComponent<ResourcesSearcher>();
             _resourcesCounter = GetComponent<ResourcesCounter>();
-            _selectionHandler = GetComponent<BaseSelectionHandler>();
             _botsHandler = GetComponent<BaseBotsHandler>();
             _resourcesHandler = GetComponent<BaseResourcesHandler>();
         }
@@ -42,8 +40,8 @@ namespace Source.Scripts.Base
             _botsHandler.Initialize(_botsSpawner, _resourcesCounter, _vault, _startBotsAmount);
             _resourcesHandler.Initialize(_searcher, _vault, _resourcesCounter);
             _botsState.Initialize(_botsHandler, _resourcesCounter);
+            _newBaseState.Initialize(_botsHandler, _resourcesCounter);
             _stateMachine.SetState(_botsState);
-            _botsHandler.SetTask(Tasks.CollectResources);
         }
 
         public void SetResource(Resource resource)
@@ -51,6 +49,12 @@ namespace Source.Scripts.Base
             _resourcesHandler.SetResource(resource);
 
             _stateMachine.CurrentState.ProcessResource();
+        }
+
+        public void GetFlagObject(Transform flagPosition)
+        {
+            _newBaseState.SetFlagPosition(flagPosition);
+            _stateMachine.SetState(_newBaseState);
         }
     }
 }

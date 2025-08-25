@@ -9,6 +9,7 @@ namespace Source.Scripts.Bots
     public class BotCollector : MonoBehaviour
     {
         [SerializeField] private BotIdleState _botIdleState;
+        [SerializeField] private BotBuildBaseState _botBuildBaseState;
         
         private BotsStateMachine _stateMachine;
         private CollisionHandler _collisionHandler;
@@ -48,6 +49,11 @@ namespace Source.Scripts.Bots
         {
             CurrentTask = task;
             TargetPosition = target;
+
+            if (CurrentTask == Tasks.BuildBase)
+            {
+                _stateMachine.SetState(_botBuildBaseState);
+            }
         }
 
         public void CompleteTask()

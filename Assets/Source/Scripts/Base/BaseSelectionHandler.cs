@@ -12,28 +12,30 @@ namespace Source.Scripts.Base
 
         private GameObject _currentFlag;
         private bool _isBaseSelected;
-
-        public Tasks CurrentTask { get; private set; }
-        public void SelectBase() => _isBaseSelected = true;
-        public void CancelSelection() => _isBaseSelected = false;
-
-        private void Awake()
-        {
-            CurrentTask = Tasks.CollectResources;
-        }
+        private Base _selectedBase;
+        
+        private void CancelSelection() => _isBaseSelected = false;
 
         private void OnEnable()
         {
+            _raycastHandler.BaseSelected += SelectBase;
             _raycastHandler.PreferToCancelSelection += CancelSelection;
             _raycastHandler.PreferToPlaceFlag += TryPlaceFlag;
         }
 
         private void OnDisable()
         {
+            _raycastHandler.BaseSelected -= SelectBase;
             _raycastHandler.PreferToCancelSelection -= CancelSelection;
             _raycastHandler.PreferToPlaceFlag -= TryPlaceFlag;
         }
 
+        private void SelectBase(Base selectedBase)
+        {
+            _selectedBase = selectedBase;
+            _isBaseSelected = true;
+        }
+        
         private void TryPlaceFlag(Vector3 flagPosition)
         {
             if (_isBaseSelected)
@@ -52,8 +54,8 @@ namespace Source.Scripts.Base
             {
                 _currentFlag = Instantiate(_flagPrefab, flagPosition, Quaternion.identity);
             }
-
-            CurrentTask = Tasks.BuildBase;
+            
+            _selectedBase.GetFlagObject(_currentFlag.transform);
         }
     }
 }

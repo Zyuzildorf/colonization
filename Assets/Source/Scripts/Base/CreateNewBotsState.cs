@@ -1,4 +1,6 @@
-﻿namespace Source.Scripts.Base
+﻿using Source.Scripts.Bots;
+
+namespace Source.Scripts.Base
 {
     public class CreateNewBotsState : BaseState
     {
@@ -9,6 +11,12 @@
         {
             _botsHandler = botsHandler;
             _counter = counter;
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+            _botsHandler.SetTask(Tasks.CollectResources);
         }
 
         public override void ProcessResource()
