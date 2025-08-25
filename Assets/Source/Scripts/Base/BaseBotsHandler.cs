@@ -12,6 +12,7 @@ namespace Source.Scripts.Base
         [SerializeField] private float _searchingBotsDelay = 1f;
         [SerializeField] private int _botCreationCost = 100;
         
+        private BotsBase _base;
         private List<BotCollector> _bots;
         private BotsSpawner _spawner;
         private ResourcesCounter _resourcesCounter;
@@ -27,8 +28,10 @@ namespace Source.Scripts.Base
         public void SetFlagPosition(Transform flag) => _flagPosition = flag;
         public void SetNewBaseCreationCost(int cost) => _baseCreationCost = cost;
         
-        public void Initialize(BotsSpawner spawner, ResourcesCounter counter, ResourcesVault vault, int startBotsAmount)
+        public void Initialize(BotsSpawner spawner, ResourcesCounter counter, ResourcesVault vault, int startBotsAmount,
+            BotsBase currentBase)
         {
+            _base = currentBase;
             _spawner = spawner;
             _vault = vault;
             _resourcesCounter = counter;
@@ -37,7 +40,7 @@ namespace Source.Scripts.Base
             _bots = _spawner.SpawnBots(startBotsAmount, transform);
             StartCoroutine(GiveTaskForFreeBots());
         }
-
+        
         public void SpawnNewBots()
         {
             int spawnBotsAmount = _resourcesCounter.ResourcesCount / _botCreationCost;
@@ -72,6 +75,7 @@ namespace Source.Scripts.Base
             else if (_currentTask == Tasks.BuildBase)
             {
                 bot.SetTask(_flagPosition, Tasks.BuildBase);
+                bot.SetBase(_base);
                 _resourcesCounter.UseResources(_baseCreationCost);
                 _currentTask = Tasks.CollectResources;
             }

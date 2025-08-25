@@ -12,7 +12,7 @@ namespace Source.Scripts.Other
 
         public event Action PreferToCancelSelection;
         public event Action<Vector3> PreferToPlaceFlag;
-        public event Action<Base.Base> BaseSelected;
+        public event Action<Base.BotsBase> BaseSelected;
         
         private void OnEnable()
         {
@@ -35,11 +35,11 @@ namespace Source.Scripts.Other
         {
             if (TryCastRaycast(_baseLayer, out RaycastHit hit))
             {
-                if (hit.collider.gameObject.TryGetComponent(out Base.Base selectedBase))
+                if (hit.collider.gameObject.TryGetComponent(out Base.BotsBase selectedBase))
                 {
                     PreferToCancelSelection?.Invoke();
                     BaseSelected?.Invoke(selectedBase);
-                    Debug.Log("Base selected");
+                    Debug.Log("BotsBase selected");
                 }
             }
             else if (TryCastRaycast(_groundLayer, out hit))

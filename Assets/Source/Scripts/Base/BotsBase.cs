@@ -8,7 +8,7 @@ namespace Source.Scripts.Base
     [RequireComponent(typeof(BotsSpawner), typeof(ResourcesSearcher), typeof(ResourcesCounter))]
     [RequireComponent(typeof(CreateNewBaseState), typeof(BaseBotsHandler), typeof(BaseResourcesHandler))]
     [RequireComponent(typeof(BaseStateMachine), typeof(CreateNewBotsState))]
-    public class Base : MonoBehaviour
+    public class BotsBase : MonoBehaviour
     {
         [SerializeField] private int _startBotsAmount = 3;
         [SerializeField] private InputReader _inputReader;
@@ -22,6 +22,10 @@ namespace Source.Scripts.Base
         private BaseBotsHandler _botsHandler;
         private BaseResourcesHandler _resourcesHandler;
         private ResourcesCounter _resourcesCounter;
+        
+        public int StartBotsAmount => _startBotsAmount;
+        public InputReader InputReader => _inputReader;
+        public ResourcesVault Vault => _vault;
 
         private void Awake()
         {
@@ -37,13 +41,20 @@ namespace Source.Scripts.Base
 
         private void Start()
         {
-            _botsHandler.Initialize(_botsSpawner, _resourcesCounter, _vault, _startBotsAmount);
+            _botsHandler.Initialize(_botsSpawner, _resourcesCounter, _vault, _startBotsAmount, this);
             _resourcesHandler.Initialize(_searcher, _vault, _resourcesCounter);
             _botsState.Initialize(_botsHandler, _resourcesCounter);
             _newBaseState.Initialize(_botsHandler, _resourcesCounter);
             _stateMachine.SetState(_botsState);
         }
 
+        public void Initialize(int startBotsAmount, InputReader inputReader, ResourcesVault vault)
+        {
+            _startBotsAmount = startBotsAmount;
+            _inputReader = inputReader;
+            _vault = vault;
+        }
+        
         public void SetResource(Resource resource)
         {
             _resourcesHandler.SetResource(resource);

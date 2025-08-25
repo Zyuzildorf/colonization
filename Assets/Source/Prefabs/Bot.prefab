@@ -94,12 +94,14 @@ GameObject:
   - component: {fileID: 8355184874940709315}
   - component: {fileID: 6005789582048061130}
   - component: {fileID: 7352305650002189995}
+  - component: {fileID: -5719898870606353537}
   - component: {fileID: 1634161647788632008}
   - component: {fileID: 4146103037511316188}
   - component: {fileID: 7484515521416062429}
   - component: {fileID: 3771088840208546408}
   - component: {fileID: -4645008169224775508}
   - component: {fileID: 7604109410852486616}
+  - component: {fileID: 8796871775204198768}
   m_Layer: 0
   m_Name: Bot
   m_TagString: Untagged
@@ -157,6 +159,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _botIdleState: {fileID: 3771088840208546408}
+  _botBuildBaseState: {fileID: -5719898870606353537}
+--- !u!114 &-5719898870606353537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3500593055519631615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce8994b8bd83499b94c29053f4591a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeed: 5
+  _rotateSpeed: 5
 --- !u!114 &1634161647788632008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,6 +279,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8796871775204198768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3500593055519631615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31e6b7dbb4fd42d0906bf558ec29b23d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4753966411301966976
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ namespace Source.Scripts.Bots
 
         public void ProcessTriggerCollider(Collider other)
         {
-            if (other.TryGetComponent(out Base.Base botBase))
+            if (other.TryGetComponent(out Base.BotsBase botBase))
             {
                 botBase.SetResource(DropResource());
 

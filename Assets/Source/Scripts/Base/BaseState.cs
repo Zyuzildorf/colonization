@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace Source.Scripts.Base
 {
-    [RequireComponent(typeof(Base), typeof(BaseStateMachine))]
+    [RequireComponent(typeof(BotsBase), typeof(BaseStateMachine))]
     public abstract class BaseState : State
     {
-        protected Base Base;
+        protected BotsBase BotsBase;
         protected BaseStateMachine StateMachine;
 
         protected override void Start()
         {
-            Base = GetComponent<Base>();
+            BotsBase = GetComponent<BotsBase>();
             StateMachine = GetComponent<BaseStateMachine>();
             base.Start();
         }

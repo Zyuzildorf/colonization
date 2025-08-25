@@ -1,4 +1,5 @@
 using System;
+using Source.Scripts.Base;
 using Source.Scripts.Interfaces;
 using Source.Scripts.Other;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Source.Scripts.Bots
         private BotsStateMachine _stateMachine;
         private CollisionHandler _collisionHandler;
 
+        public BotsBase BotsBase { get; set; }
         public Transform BasePosition { get; private set; }
         public Transform TargetPosition { get; private set; }
         public Tasks CurrentTask { get; private set; }
@@ -45,6 +47,11 @@ namespace Source.Scripts.Bots
             _collisionHandler.TriggerEntered -= ProcessCollision;
         }
 
+        public void SetBase(BotsBase botsBase)
+        {
+            BotsBase = botsBase;
+        }
+        
         public void SetTask(Transform target, Tasks task)
         {
             CurrentTask = task;

@@ -9,6 +9,7 @@ namespace Source.Scripts.Base
         [SerializeField] private int _costOfNewBase = 5;
         [SerializeField] private CreateNewBotsState _createNewBotsState;
 
+        private BotsBase _base;
         private BaseBotsHandler _botsHandler;
         private ResourcesCounter _counter;
         private Transform _currentFlag;

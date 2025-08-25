@@ -12,7 +12,7 @@ namespace Source.Scripts.Base
 
         private GameObject _currentFlag;
         private bool _isBaseSelected;
-        private Base _selectedBase;
+        private BotsBase _selectedBotsBase;
         
         private void CancelSelection() => _isBaseSelected = false;
 
@@ -30,9 +30,9 @@ namespace Source.Scripts.Base
             _raycastHandler.PreferToPlaceFlag -= TryPlaceFlag;
         }
 
-        private void SelectBase(Base selectedBase)
+        private void SelectBase(BotsBase selectedBotsBase)
         {
-            _selectedBase = selectedBase;
+            _selectedBotsBase = selectedBotsBase;
             _isBaseSelected = true;
         }
         
@@ -55,7 +55,7 @@ namespace Source.Scripts.Base
                 _currentFlag = Instantiate(_flagPrefab, flagPosition, Quaternion.identity);
             }
             
-            _selectedBase.GetFlagObject(_currentFlag.transform);
+            _selectedBotsBase.GetFlagObject(_currentFlag.transform);
         }
     }
 }
